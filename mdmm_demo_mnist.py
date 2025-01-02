@@ -97,6 +97,7 @@ def main():
         checkpoint_local = torch.load(loadPath)
         torch.set_rng_state(checkpoint_local['torch_rng_state'])
         train_gen.set_state(checkpoint_local['train_gen_state'])
+        mdmm_module.load_state_dict(checkpoint['mdmm_state_dict'])
 
     writer = csv.writer(open('mdmm_demo_mnist.csv', 'w'))
     writer.writerow(['loss', 'norm_1', 'norm_2', 'norm_3'])
@@ -148,6 +149,7 @@ def main():
             'validation_losses': validation_losses,
             'torch_rng_state': torch.get_rng_state(),
             'train_gen_state': train_gen.get_state(),
+            'mdmm_state_dict': mdmm_module.state_dict(),
         }
         torch.save(checkpoint, f'model_{epoch}.pt')
 
