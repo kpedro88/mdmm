@@ -38,8 +38,10 @@ class Constraint(nn.Module, metaclass=abc.ABCMeta):
             fn_value = self.fn()
         elif type(x) in [list, tuple]:
             fn_value = self.fn(*x)
+        elif type(x) in [dict]:
+            fn_value = self.fn(**x)
         else:
-            fn_value = self.fn(x)    
+            fn_value = self.fn(x)
         inf = self.infeasibility(fn_value)
         l_term = self.lmbda * inf
         damp_term = self.damping * inf**2 / 2
